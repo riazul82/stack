@@ -1,9 +1,10 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const App = () => {
   return (
-    <div>
-      <h1 className="font-inter text-[20px]">Hello!</h1>
+    <div className="py-[30px] px-[80px]">
+      <Outlet />
     </div>
   );
 }
