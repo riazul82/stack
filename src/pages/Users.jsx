@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
-import { RxDotsHorizontal } from 'react-icons/rx';
 import DashboardLayout from '../layouts/DashboardLayout';
+import { RxDotsHorizontal } from 'react-icons/rx';
 import { usersData } from '../reducers/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ const Users = () => {
     const {users, loading, error} = useSelector((state) => state.users);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(10);
+    
     const dispatch = useDispatch();
 
     useEffect(() => {

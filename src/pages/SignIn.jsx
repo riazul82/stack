@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import { signinUser } from '../reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,9 +10,10 @@ const SignIn = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [passwordToggle, setPasswordToggle] = useState(false);
-    // const {loading, error} = useSelector((state) => state.user);
+    const {token, loading, error} = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handlePasswordToggle = () => {
         setPasswordToggle(!passwordToggle);
@@ -37,12 +38,18 @@ const SignIn = () => {
             setValidPassword(true);
         }
     }
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
+        localStorage.removeItem('token');
         if (validateEmail(user.email) && validatePassword(user.password)) {
             dispatch(signinUser(user));
             setUser({email: '', password: ''});
+            setTimeout(() => {
+                if (localStorage.getItem('token')) {
+                    navigate('/');
+                }
+            }, 1200);
         } 
         
         if (!validateEmail(user.email)) {
@@ -56,7 +63,7 @@ const SignIn = () => {
 
     return (
         <AuthLayout>
-            <div className="flex justify-center w-full mb-[200px]">
+            <div className="flex justify-center w-full mb-[140px]">
                 <div className="py-[120px] w-[540px] h-auto">
                     <h1 className="font-bold text-[26px] text-center text-[#323B4B]">Sign In</h1>
                     <p className="font-medium text-center text-[18px] text-[#8A94A6] mt-[19px]">Welcome back, you’ve been missed!</p>
@@ -94,6 +101,8 @@ const SignIn = () => {
                         <span className="h-[2px] w-[230px] bg-[#F0F5FA]"></span>
                     </div>
 
+                    {error && !user.email && !user.password && <p className="py-2 mt-3 text-[#fff] text-[16px] text-center bg-red-500 rounded-[16px]">{error}</p>}
+
                     <form className="w-full h-auto" onSubmit={handleSubmit}>
                         <div className={`mt-[30px] flex items-center justify-start h-[58px] w-full rounded-[16px] outline-none border ${!validEmail ? 'border-[#FF5630]' : 'border-[#C6CCD4]'}`}>
                             <div className="flex items-center h-full pl-[18px]">
@@ -111,7 +120,7 @@ const SignIn = () => {
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.61905 14.0108V15.9326C9.61905 16.1335 9.79576 16.2963 10 16.2963C10.2104 16.2963 10.381 16.1275 10.381 15.9326V14.0108C10.8248 13.8583 11.1429 13.4467 11.1429 12.963C11.1429 12.3493 10.6312 11.8519 10 11.8519C9.36882 11.8519 8.85714 12.3493 8.85714 12.963C8.85714 13.4467 9.17517 13.8583 9.61905 14.0108ZM4.28571 8.14816V5.55499C4.28571 2.48645 6.84409 0 10 0C13.1495 0 15.7143 2.48705 15.7143 5.55499V8.14816C16.9784 8.15167 18 9.14838 18 10.3774V14.0741C18 17.3402 15.2714 20 11.9054 20H8.09456C4.73232 20 2 17.3469 2 14.0741V10.3774C2 9.14043 3.02273 8.15164 4.28571 8.14816ZM6.57143 8.14815V5.55619C6.57143 3.71055 8.10645 2.22222 10 2.22222C11.8897 2.22222 13.4286 3.71489 13.4286 5.55619V8.14815H6.57143Z" fill="#C1C7D0"/>
                                 </svg>
                             </div>
-                            <input value={user.password} onChange={handleChange} className="font-medium text-[16px] text-[#8A94A6] h-full w-full border-none outline-none focus:ring-transparent rounded-[16px] px-[13px] placeholder-[#B0B7C3]" type={passwordToggle ? 'text' : 'password'} name="password" placeholder="Create Password" />
+                            <input value={user.password} onChange={handleChange} className="font-medium text-[16px] text-[#8A94A6] h-full w-full border-none outline-none focus:ring-transparent rounded-[16px] px-[13px] placeholder-[#B0B7C3]" type={passwordToggle ? 'text' : 'password'} name="password" placeholder="Password" />
                             <div className="pr-[18px]">
                                 {passwordToggle ? 
                                     <BsFillEyeFill onClick={handlePasswordToggle} className={`text-[#C1C7D0] text-[20px] ${user.password !== '' ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 hidden pointer-events-none'}`} /> 
@@ -130,7 +139,7 @@ const SignIn = () => {
                     </form>
 
                     <div className="mt-[35px] flex justify-center items-center">
-                        <p className="text-[16px] text-[#B0B7C3] font-medium">Already have an account?</p>
+                        <p className="text-[16px] text-[#B0B7C3] font-medium">Don’t have an account yet?</p>
                         <Link to="/signup" className="ml-1 text-[16px] text-[#377DFF] font-medium">Sign Up</Link>
                     </div>
                 </div>

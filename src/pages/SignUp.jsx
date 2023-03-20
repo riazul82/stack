@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import { signupUser } from '../reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,9 +11,10 @@ const SignUp = () => {
     const [validName, setValidName] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [passwordToggle, setPasswordToggle] = useState(false);
-    // const {loading, error} = useSelector((state) => state.user);
+    const {token, loading, error} = useSelector((state) => state.user);
     
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handlePasswordToggle = () => {
         setPasswordToggle(!passwordToggle);
@@ -50,9 +51,15 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        localStorage.removeItem('token');
         if (validateEmail(user.email) && validateName(user.name) && validatePassword(user.password)) {
             dispatch(signupUser(user));
-            setUser({email: '', password: ''});
+            setUser({name: '', email: '', password: ''});
+            setTimeout(() => {
+                if (localStorage.getItem('token')) {
+                    navigate('/');
+                }
+            }, 1200);
         } 
         
         if (!validateEmail(user.email)) {
@@ -70,7 +77,7 @@ const SignUp = () => {
 
     return (
         <AuthLayout>
-            <div className="flex justify-center w-full mb-[70px]">
+            <div className="flex justify-center w-full mb-[90px]">
                 <div className="py-[120px] w-[540px] h-auto">
                     <h1 className="font-bold text-[26px] text-center text-[#323B4B]">Getting Started</h1>
                     <p className="font-medium text-center text-[18px] text-[#8A94A6] mt-[19px]">Create an account to continue!</p>
@@ -107,6 +114,8 @@ const SignUp = () => {
                         <p className="text-[#B0B7C3] text-[20px]">OR</p>
                         <span className="h-[2px] w-[230px] bg-[#F0F5FA]"></span>
                     </div>
+
+                    {error && !user.email && !user.name && !user.password && <p className="py-2 mt-3 text-[#fff] text-[16px] text-center bg-red-500 rounded-[16px]">{error}</p>}
 
                     <form className="w-full h-auto" onSubmit={handleSubmit}>
                         <div className={`mt-[30px] flex items-center justify-start h-[58px] w-full rounded-[16px] outline-none border ${!validEmail ? 'border-[#FF5630]' : 'border-[#C6CCD4]'}`}>
