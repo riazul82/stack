@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 
 import { addToken } from './reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import Sales from './pages/Sales';
 
 const App = () => {
   const token = useSelector((state) => state.user.token);
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/' element={<Dashboard />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/users' element={<Users />} />
+        <Route path='/sales' element={<Sales />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>
