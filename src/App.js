@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // pages
@@ -14,9 +14,10 @@ import Sales from './pages/Sales';
 const App = () => {
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
-  dispatch(addToken());
 
-  console.log(token);
+  useEffect(() => {
+    dispatch(addToken());
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

@@ -4,11 +4,11 @@ import logo from '../assets/logo.png';
 
 const SideNav = () => {
     return (
-        <div className="px-[16px] h-screen w-[250px] border-r border-[#F3F3F3]">
+        <div className="px-[16px] h-screen w-[250px]">
             <img src={logo} className="mt-[30px] ml-[18px] h-[46px] w-[160px]" alt="logo" />
             <p className="mt-[48px] ml-[18px] text-[#B0B7C3] text-[12px] tracking-[0.07em] uppercase">Pages</p>
 
-            <div>
+            <div className="h-full">
                 <NavLink to="/"  className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] navLink" end>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_20_193)">

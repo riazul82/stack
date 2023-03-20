@@ -5,9 +5,9 @@ import profile from '../assets/profile.png';
 
 const DashboardLayout = ({ children }) => {
     return (
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start box-border overflow-hidden">
             <SideNav />
-            <div className="px-[38px] pt-[23px] w-full">
+            <div className="px-[38px] pt-[23px] pb-[40px] w-full min-h-screen border-l border-[#F3F3F3]">
                 <div className="flex justify-between items-center">
                     <div className="flex justify-between items-center w-[539px] h-[54px] rounded-[16px] bg-[#F0F5FA]">
                         <input type="text" className="h-full w-full rounded-[16px] overflow-hidden border-none outline-none bg-transparent pl-[24px] text-[14px] text-[#8A94A6] focus:ring-transparent placeholder:text-[#B0B7C3]" placeholder="Search"  />
