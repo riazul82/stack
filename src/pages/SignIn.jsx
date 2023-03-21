@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthLayout from '../layouts/AuthLayout';
 import { signinUser } from '../reducers/authReducer';
 import { removeError } from '../reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import AuthLayout from '../layouts/AuthLayout';
 
 const SignIn = () => {
     const [user, setUser] = useState({email: '', password: ''});
@@ -65,7 +65,7 @@ const SignIn = () => {
             setValidPassword(false);
         }
     }
-
+    
     const redirectSignup = () => {
         if (error) {
             dispatch(removeError());

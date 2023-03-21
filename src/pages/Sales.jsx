@@ -2,8 +2,10 @@ import React from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 
 const Sales = () => {
+    const getSearchText = (searchTxt) => {}
+    
     return (
-        <DashboardLayout>
+        <DashboardLayout getSearchText={getSearchText}>
             <h1 className="mt-[48px] text-[#323B4B] text-[23px] font-semibold">Sales</h1>
         </DashboardLayout>
     );

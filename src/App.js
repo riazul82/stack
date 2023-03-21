@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 import Sales from './pages/Sales';
 
 const App = () => {
-  // const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
 
   useEffect(() => {

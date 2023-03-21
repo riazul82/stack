@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthLayout from '../layouts/AuthLayout';
 import { signupUser } from '../reducers/authReducer';
 import { removeError } from '../reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import AuthLayout from '../layouts/AuthLayout';
 
 const SignUp = () => {
     const [user, setUser] = useState({name: '', email: '', password: ''});
