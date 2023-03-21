@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import { signinUser } from '../reducers/authReducer';
@@ -10,10 +10,17 @@ const SignIn = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [passwordToggle, setPasswordToggle] = useState(false);
-    const {token, loading, error} = useSelector((state) => state.user);
+    const [authErrorShowCount, setAuthErrorShowCount] = useState(0);
+    const {error} = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (error && authErrorShowCount === 0) {
+            setAuthErrorShowCount(1);
+        }
+    }, [error, authErrorShowCount]);
 
     const handlePasswordToggle = () => {
         setPasswordToggle(!passwordToggle);
@@ -37,6 +44,10 @@ const SignIn = () => {
         if (!validPassword && e.target.name === 'password' && validatePassword(e.target.value)) {
             setValidPassword(true);
         }
+
+        if (authErrorShowCount) {
+            setAuthErrorShowCount((prev) => prev + 1);
+        }
     }
     
     const handleSubmit = (e) => {
@@ -58,6 +69,12 @@ const SignIn = () => {
 
         if (validateEmail(user.email) && !validatePassword(user.password)) {
             setValidPassword(false);
+        }
+
+        if (authErrorShowCount) {
+            setTimeout(() => {
+                setAuthErrorShowCount(0);
+            }, 1200);
         }
     }
 
@@ -101,7 +118,7 @@ const SignIn = () => {
                         <span className="h-[2px] w-[230px] bg-[#F0F5FA]"></span>
                     </div>
 
-                    {error && !user.email && !user.password && <p className="py-2 mt-3 text-[#fff] text-[16px] text-center bg-red-500 rounded-[16px]">{error}</p>}
+                    {error &&  authErrorShowCount === 1 && <p className="py-2 mt-3 text-[#fff] text-[16px] text-center bg-red-500 rounded-[16px]">{error}</p>}
 
                     <form className="w-full h-auto" onSubmit={handleSubmit}>
                         <div className={`mt-[30px] flex items-center justify-start h-[58px] w-full rounded-[16px] outline-none border ${!validEmail ? 'border-[#FF5630]' : 'border-[#C6CCD4]'}`}>
