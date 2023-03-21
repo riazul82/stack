@@ -45,6 +45,7 @@ const SignIn = () => {
             setValidPassword(true);
         }
 
+        // remove auth arror when start typing
         if (authErrorShowCount) {
             setAuthErrorShowCount((prev) => prev + 1);
         }

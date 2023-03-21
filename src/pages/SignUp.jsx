@@ -11,6 +11,7 @@ const SignUp = () => {
     const [validName, setValidName] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [passwordToggle, setPasswordToggle] = useState(false);
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const [authErrorShowCount, setAuthErrorShowCount] = useState(0);
     const {error} = useSelector((state) => state.user);
     
@@ -41,6 +42,47 @@ const SignUp = () => {
         return password.length > 3;
     }
 
+    const checkPasswordStrength = (password) => {
+        const len = password.length;
+
+        // uppercase, lowercase, [4, 6]
+        const weak = /^(?=.*[a-zA-Z]).{4,6}$/g;
+
+        // at least 1 uppercase, 1 lowercase, [4, 8]
+        const fair = /^(?=.*[a-z])(?=.*[A-Z]).{4,8}$/g;
+
+        // at least 1 uppercase, 1 lowercase, 1 digit, [6, 10]
+        const good = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,10}$/g;
+
+        // at least 1 uppercase, 1 lowercase, 1 digit, 1 special character [6,12]
+        const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,12}$/g;
+        
+        // at least 1 uppercase, 1 lowercase, 1 digit, 1 special character [12,]
+        const excellent = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&^()_\-=[\]{};':"\\|,.<>/?`~]{12,}$/g;
+        
+        if (len > 0 && len < 4) {
+            setPasswordStrength(1);
+        }
+        if (weak.test(password)) {
+            setPasswordStrength(2);
+        }
+        if (fair.test(password)) {
+            setPasswordStrength(3);
+        }
+        if (good.test(password)) {
+            setPasswordStrength(4);
+        }
+        if (strong.test(password)) {
+            setPasswordStrength(5);
+        }
+        if (excellent.test(password)) {
+            setPasswordStrength(6);
+        }
+        if (password.length === 0) {
+            setPasswordStrength(0);
+        }
+    }
+
     const handleChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value});
         if (!validEmail && e.target.name === 'email' && validateEmail(e.target.value)) {
@@ -55,6 +97,12 @@ const SignUp = () => {
             setValidPassword(true);
         }
 
+        // check password strength
+        if (e.target.name === 'password') {
+            checkPasswordStrength(e.target.value);
+        }
+
+        // remove auth arror when start typing
         if (authErrorShowCount) {
             setAuthErrorShowCount((prev) => prev + 1);
         }
@@ -179,14 +227,14 @@ const SignUp = () => {
                         </div>
                         {!validPassword && <p className="mt-[16px] text-[14px] text-[#FF5630] font-medium">Please enter a valid password.</p>}
 
-                        <div className="mt-[25px] flex items-center justify-evenly">
-                            <span className="w-[68px] h-[4px] bg-[#38CB89] rounded-[2px]"></span>
-                            <span className="w-[68px] h-[4px] bg-[#38CB89] rounded-[2px]"></span>
-                            <span className="w-[68px] h-[4px] bg-[#38CB89] rounded-[2px]"></span>
-                            <span className="w-[68px] h-[4px] bg-[#38CB89] rounded-[2px]"></span>
-                            <span className="w-[68px] h-[4px] bg-[#38CB89] rounded-[2px]"></span>
-                            <span className="w-[68px] h-[4px] bg-[#F3F3F3] rounded-[2px]"></span>
-                        </div>
+                        {user.password && <div className="mt-[25px] flex items-center justify-evenly">
+                            <span className={`w-[68px] h-[4px] rounded-[2px] ${(passwordStrength >= 1) ? 'bg-[#38CB89]' : 'bg-[#F3F3F3]'}`}></span>
+                            <span className={`w-[68px] h-[4px] rounded-[2px] ${(passwordStrength >= 2) ? 'bg-[#38CB89]' : 'bg-[#F3F3F3]'}`}></span>
+                            <span className={`w-[68px] h-[4px] rounded-[2px] ${(passwordStrength >= 3) ? 'bg-[#38CB89]' : 'bg-[#F3F3F3]'}`}></span>
+                            <span className={`w-[68px] h-[4px] rounded-[2px] ${(passwordStrength >= 4) ? 'bg-[#38CB89]' : 'bg-[#F3F3F3]'}`}></span>
+                            <span className={`w-[68px] h-[4px] rounded-[2px] ${(passwordStrength >= 5) ? 'bg-[#38CB89]' : 'bg-[#F3F3F3]'}`}></span>
+                            <span className={`w-[68px] h-[4px] rounded-[2px] ${(passwordStrength >= 6) ? 'bg-[#38CB89]' : 'bg-[#F3F3F3]'}`}></span>
+                        </div>}
 
                         <div class="flex items-center mt-[30px]">
                             <input id="default-checkbox" type="checkbox" value="" class="w-[28px] h-[28px] text-[#377DFF] bg-gray-100 border-gray-300 rounded focus:ring-transparent focus:ring-0" />
