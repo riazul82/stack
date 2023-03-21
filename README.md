@@ -16,7 +16,7 @@ Anchorblock coding test
   - Client side user (name, email, password) validation
   - Added password strength checker
   - Private routes for dashboard and users page
-  - Interated user list api with pagination
+  - Integrated user list api with pagination
   - Added search and logout functionality
 ```
 
