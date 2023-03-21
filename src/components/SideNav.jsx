@@ -9,7 +9,7 @@ const SideNav = () => {
             <p className="mt-[48px] ml-[18px] text-[#B0B7C3] text-[12px] tracking-[0.07em] uppercase">Pages</p>
 
             <div className="h-full">
-                <NavLink to="/"  className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] navLink" end>
+                <NavLink to="/"  className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] hover:bg-[#F0F5FA] transition duration-300 navLink" end>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_20_193)">
                         <path d="M3.7875 7.63435C2.05625 7.64685 0.156251 7.86873 0.0125012 5.57185C0.0187512 4.89998 0.0125012 4.23748 0.0125012 3.56873C0.0531262 2.56873 -0.218749 1.34685 0.593751 0.587476C0.971876 0.212476 1.48125 0.00622559 2.0125 0.00935059C2.84688 0.00622559 3.6625 0.00622559 4.4375 0.00622559H5.66875C6.72813 0.00935059 7.60625 0.887476 7.625 1.96873C7.64688 3.25935 7.64688 4.45935 7.625 5.63123C7.60313 6.7531 6.7375 7.60935 5.60938 7.62185C4.99688 7.63123 4.38438 7.63435 3.7875 7.63435ZM3.76875 1.6281C3.18438 1.6281 2.64063 1.6281 2.1125 1.63123C1.77813 1.63123 1.6375 1.7781 1.6375 2.11248C1.63438 3.20623 1.63438 4.35935 1.6375 5.53123C1.6375 5.83123 1.77813 5.97185 2.075 5.97185C3.24375 5.97498 4.4125 5.97498 5.58125 5.97185C5.84375 5.97185 5.97813 5.83435 5.98125 5.56873C5.98438 4.80935 5.98125 4.05935 5.98125 3.30623C5.98438 1.11248 6.19688 1.72185 3.76875 1.6281Z" fill="#B0B7C3"/>
@@ -27,7 +27,7 @@ const SideNav = () => {
                     <p className="text-[#A7AFBC] text-[14px] font-medium ml-[15px]">Dashboard</p>
                 </NavLink>
 
-                <NavLink to="/users" className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] navLink">
+                <NavLink to="/users" className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] hover:bg-[#F0F5FA] transition duration-300 navLink">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_20_210)">
                         <path d="M8 8.86221C5.57499 8.86221 3.67132 9.43562 2.37198 10.5518C1.06902 11.671 0.394998 13.3177 0.394998 15.4161C0.394998 15.8215 0.723562 16.1501 1.12894 16.1501H14.871C15.2764 16.1501 15.605 15.8215 15.605 15.4161C15.605 13.3178 14.931 11.6711 13.628 10.5518C12.3287 9.43568 10.425 8.86221 8 8.86221ZM14.1026 14.6822H1.89757C2.03732 13.2542 2.59969 12.1881 3.56846 11.4687C4.57889 10.7183 6.0513 10.3301 8 10.3301C9.9487 10.3301 11.4211 10.7183 12.4316 11.4687C13.4004 12.1881 13.9628 13.2542 14.1026 14.6822Z" fill="#B0B7C3" stroke="#B0B7C3" strokeWidth="0.3"/>
@@ -43,7 +43,7 @@ const SideNav = () => {
                     <p className="text-[#A7AFBC] text-[14px] font-medium ml-[15px]">Users</p>
                 </NavLink>
 
-                <NavLink to="/sales" className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] navLink">
+                <NavLink to="/sales" className="flex justify-start items-center mt-2 px-[17px] h-[50px] rounded-[12px] bg-[#FFFFFF] hover:bg-[#F0F5FA] transition duration-300 navLink">
                     <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_20_240)">
                         <path d="M13.0588 17.1499H2.70587V18.4746H13.0588V17.1499Z" fill="#B0B7C3"/>

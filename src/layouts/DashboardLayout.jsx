@@ -1,11 +1,36 @@
-import React from 'react';
-import SideNav from '../components/SideNav';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import SideNav from '../components/SideNav';
 import profile from '../assets/profile.png';
+import { logoutUser } from '../reducers/authReducer';
+import { useDispatch } from 'react-redux';
+
+// icons
+import { FaRegUser } from 'react-icons/fa';
+import { FiSettings } from 'react-icons/fi';
+import { GoIssueReopened } from 'react-icons/go';
+import { MdLogout } from 'react-icons/md';
 
 const DashboardLayout = ({ children }) => {
+    const [profileMenuToggle, setProfileMenuToggle] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const hideProfileMenu = () => {
+        if (profileMenuToggle) {
+            setProfileMenuToggle(false);
+        }
+    }
+
+    const logout = () => {
+        dispatch(logoutUser());
+        navigate('/signin');
+    }
+
     return (
-        <div className="flex justify-between items-start box-border overflow-hidden">
+        <div className="flex justify-between items-start box-border overflow-hidden" onClick={hideProfileMenu}>
             <SideNav />
             <div className="px-[38px] pt-[23px] pb-[40px] w-full min-h-screen border-l border-[#F3F3F3]">
                 <div className="flex justify-between items-center">
@@ -30,7 +55,27 @@ const DashboardLayout = ({ children }) => {
                             <path d="M16.3565 20.0658C16.508 19.6617 16.3032 19.2115 15.8991 19.0601C15.4951 18.9086 15.0449 19.1134 14.8934 19.5174L16.3565 20.0658ZM10.1065 19.5174C9.95511 19.1134 9.50483 18.9086 9.1008 19.0601C8.69677 19.2115 8.49199 19.6617 8.6434 20.0658L10.1065 19.5174ZM14.8934 19.5174C14.5573 20.4144 13.6298 21.0937 12.5 21.0937V22.6562C14.2557 22.6562 15.7829 21.5963 16.3565 20.0658L14.8934 19.5174ZM12.5 21.0937C11.3702 21.0937 10.4427 20.4144 10.1065 19.5174L8.6434 20.0658C9.217 21.5963 10.7442 22.6562 12.5 22.6562V21.0937Z" fill="#B0B7C3"/>
                         </svg>
 
-                        <img src={profile} className="h-[47px] w-[47px]" alt="profile" />
+                        <div className="relative">
+                            <img src={profile} onClick={() => setProfileMenuToggle(!profileMenuToggle)} className="h-[47px] w-[47px] cursor-pointer" alt="profile" />
+                            {profileMenuToggle && <div className="absolute top-[60px] right-0 w-[180px] bg-[#fff] rounded-[16px] border border-[#ddd] overflow-hidden">
+                                <Link to="/" className="flex items-center justify-start py-2 px-4 cursor-pointer hover:bg-[#F0F5FA]">
+                                    <FaRegUser className="text-[#4E5D78] text-[18px]" />
+                                    <span className="ml-2 text-[#4E5D78] text-[16px] font-medium">Profile</span>
+                                </Link>
+                                <Link to="/" className="flex items-center justify-start py-2 px-4 cursor-pointer hover:bg-[#F0F5FA]">
+                                    <FiSettings className="text-[#4E5D78] text-[18px]" />
+                                    <span className="ml-2 text-[#4E5D78] text-[16px] font-medium">Settings</span>
+                                </Link>
+                                <Link to="/" className="flex items-center justify-start py-2 px-4 cursor-pointer hover:bg-[#F0F5FA]">
+                                    <GoIssueReopened className="text-[#4E5D78] text-[18px]" />
+                                    <span className="ml-2 text-[#4E5D78] text-[16px] font-medium">Actions</span>
+                                </Link>
+                                <div to="/" onClick={logout} className="flex items-center justify-start py-2 px-4 cursor-pointer border-t border-[#ddd] hover:bg-[#F0F5FA]">
+                                    <MdLogout className="text-[#4E5D78] text-[18px]" />
+                                    <span className="ml-2 text-[#4E5D78] text-[16px] font-medium">Logout</span>
+                                </div>
+                            </div>}
+                        </div>
                     </div>
                 </div>
 
