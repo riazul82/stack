@@ -30,6 +30,9 @@ const authReducer = createSlice({
     reducers: {
         addToken: (state, action) => {
             state.token = localStorage.getItem('token');
+        },
+        removeError: (state, action) => {
+            state.error = '';
         }
     },
     extraReducers: {
@@ -63,5 +66,5 @@ const authReducer = createSlice({
     }
 });
 
-export const { addToken } = authReducer.actions;
+export const { addToken, removeError } = authReducer.actions;
 export default authReducer.reducer;

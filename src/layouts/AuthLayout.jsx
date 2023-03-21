@@ -14,7 +14,7 @@ const AuthLayout = ({ children }) => {
                 <img src={logo} className="h-[46px] w-[160px]" alt="logo" />
             
                 <select value={lang} onChange={handleLang} name="lang" id="lang" className="bg-[#F0F5FA] text-[#B0B7C3] text-[12px] px-[18px] border-none outline-none rounded-[16px] h-[43px] w-[146px] box-border block focus:ring-transparent">
-                    <option value="eng-uk" selected>English (UK)</option>
+                    <option value="eng-uk">English (UK)</option>
                     <option value="eng-en">English (EN)</option>
                 </select>
             </div>

@@ -26,7 +26,7 @@ const Users = () => {
     return (
         <DashboardLayout>
             <h1 className="mt-[48px] text-[#323B4B] text-[23px] font-semibold">Users List</h1>
-            <table class="table-auto w-full mt-[22px] border-separate border-spacing-y-[20px]">
+            <table className="table-auto w-full mt-[22px] border-separate border-spacing-y-[20px]">
                 <thead>
                     <tr className="h-[44px] bg-[#FAFBFC]">
                         <th className="text-center text-[#4E5D78] text-[12px] font-semibold uppercase rounded-l-[12px] px-[12px]">#ID</th>

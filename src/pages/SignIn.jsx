@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthLayout from '../layouts/AuthLayout';
 import { signinUser } from '../reducers/authReducer';
+import { removeError } from '../reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 
@@ -10,17 +11,10 @@ const SignIn = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [passwordToggle, setPasswordToggle] = useState(false);
-    const [authErrorShowCount, setAuthErrorShowCount] = useState(0);
     const {error} = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (error && authErrorShowCount === 0) {
-            setAuthErrorShowCount(1);
-        }
-    }, [error, authErrorShowCount]);
 
     const handlePasswordToggle = () => {
         setPasswordToggle(!passwordToggle);
@@ -45,9 +39,8 @@ const SignIn = () => {
             setValidPassword(true);
         }
 
-        // remove auth arror when start typing
-        if (authErrorShowCount) {
-            setAuthErrorShowCount((prev) => prev + 1);
+        if (error) {
+            dispatch(removeError());
         }
     }
     
@@ -61,7 +54,7 @@ const SignIn = () => {
                 if (localStorage.getItem('token')) {
                     navigate('/');
                 }
-            }, 1200);
+            }, 2200);
         } 
         
         if (!validateEmail(user.email)) {
@@ -71,12 +64,13 @@ const SignIn = () => {
         if (validateEmail(user.email) && !validatePassword(user.password)) {
             setValidPassword(false);
         }
+    }
 
-        if (authErrorShowCount) {
-            setTimeout(() => {
-                setAuthErrorShowCount(0);
-            }, 1200);
+    const redirectSignup = () => {
+        if (error) {
+            dispatch(removeError());
         }
+        navigate('/signup');
     }
 
     return (
@@ -99,8 +93,8 @@ const SignIn = () => {
 
                         <div className="flex justify-center items-center w-[255px] h-[58px] mt-[30px] bg-[#F0F5FA] rounded-[16px] cursor-pointer">
                             <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_6_21)">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.256 3.89624C14.0196 2.88584 14.5985 1.45774 14.3891 0C13.141 0.088904 11.6822 0.907396 10.831 1.97424C10.055 2.9409 9.41729 4.37889 9.66636 5.77454C11.0308 5.81828 12.439 4.98002 13.256 3.89624ZM20 17.6086C19.454 18.8561 19.1912 19.4135 18.4878 20.5185C17.5066 22.0609 16.123 23.9815 14.4069 23.9956C12.8837 24.0125 12.491 22.9725 10.4231 22.9852C8.35532 22.9965 7.92424 24.0153 6.39835 23.9998C4.6836 23.9843 3.37257 22.2514 2.39135 20.709C-0.353892 16.3992 -0.642649 11.3402 1.0502 8.64908C2.25449 6.73835 4.15399 5.6207 5.93853 5.6207C7.75455 5.6207 8.89726 6.64804 10.4013 6.64804C11.8601 6.64804 12.7483 5.61789 14.8489 5.61789C16.4391 5.61789 18.1238 6.51115 19.3226 8.05215C15.3922 10.2733 16.0286 16.0606 20 17.6086Z" fill="#C1C7D0"/>
+                                <g clipPath="url(#clip0_6_21)">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M13.256 3.89624C14.0196 2.88584 14.5985 1.45774 14.3891 0C13.141 0.088904 11.6822 0.907396 10.831 1.97424C10.055 2.9409 9.41729 4.37889 9.66636 5.77454C11.0308 5.81828 12.439 4.98002 13.256 3.89624ZM20 17.6086C19.454 18.8561 19.1912 19.4135 18.4878 20.5185C17.5066 22.0609 16.123 23.9815 14.4069 23.9956C12.8837 24.0125 12.491 22.9725 10.4231 22.9852C8.35532 22.9965 7.92424 24.0153 6.39835 23.9998C4.6836 23.9843 3.37257 22.2514 2.39135 20.709C-0.353892 16.3992 -0.642649 11.3402 1.0502 8.64908C2.25449 6.73835 4.15399 5.6207 5.93853 5.6207C7.75455 5.6207 8.89726 6.64804 10.4013 6.64804C11.8601 6.64804 12.7483 5.61789 14.8489 5.61789C16.4391 5.61789 18.1238 6.51115 19.3226 8.05215C15.3922 10.2733 16.0286 16.0606 20 17.6086Z" fill="#C1C7D0"/>
                                 </g>
                                 <defs>
                                 <clipPath id="clip0_6_21">
@@ -119,7 +113,7 @@ const SignIn = () => {
                         <span className="h-[2px] w-[230px] bg-[#F0F5FA]"></span>
                     </div>
 
-                    {error &&  authErrorShowCount === 1 && <p className="py-2 mt-3 text-[#fff] text-[16px] text-center bg-red-500 rounded-[16px]">{error}</p>}
+                    {error && <p className="py-2 mt-3 text-[#fff] text-[16px] text-center bg-red-500 rounded-[16px]">{error}</p>}
 
                     <form className="w-full h-auto" onSubmit={handleSubmit}>
                         <div className={`mt-[30px] flex items-center justify-start h-[58px] w-full rounded-[16px] outline-none border ${!validEmail ? 'border-[#FF5630]' : 'border-[#C6CCD4]'}`}>
@@ -135,7 +129,7 @@ const SignIn = () => {
                         <div className={`mt-[30px] relative flex items-center justify-start h-[58px] w-full rounded-[16px] outline-none border ${!validPassword ? 'border-[#FF5630]' : 'border-[#C6CCD4]'}`}>
                             <div className="flex items-center h-full pl-[18px]">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.61905 14.0108V15.9326C9.61905 16.1335 9.79576 16.2963 10 16.2963C10.2104 16.2963 10.381 16.1275 10.381 15.9326V14.0108C10.8248 13.8583 11.1429 13.4467 11.1429 12.963C11.1429 12.3493 10.6312 11.8519 10 11.8519C9.36882 11.8519 8.85714 12.3493 8.85714 12.963C8.85714 13.4467 9.17517 13.8583 9.61905 14.0108ZM4.28571 8.14816V5.55499C4.28571 2.48645 6.84409 0 10 0C13.1495 0 15.7143 2.48705 15.7143 5.55499V8.14816C16.9784 8.15167 18 9.14838 18 10.3774V14.0741C18 17.3402 15.2714 20 11.9054 20H8.09456C4.73232 20 2 17.3469 2 14.0741V10.3774C2 9.14043 3.02273 8.15164 4.28571 8.14816ZM6.57143 8.14815V5.55619C6.57143 3.71055 8.10645 2.22222 10 2.22222C11.8897 2.22222 13.4286 3.71489 13.4286 5.55619V8.14815H6.57143Z" fill="#C1C7D0"/>
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M9.61905 14.0108V15.9326C9.61905 16.1335 9.79576 16.2963 10 16.2963C10.2104 16.2963 10.381 16.1275 10.381 15.9326V14.0108C10.8248 13.8583 11.1429 13.4467 11.1429 12.963C11.1429 12.3493 10.6312 11.8519 10 11.8519C9.36882 11.8519 8.85714 12.3493 8.85714 12.963C8.85714 13.4467 9.17517 13.8583 9.61905 14.0108ZM4.28571 8.14816V5.55499C4.28571 2.48645 6.84409 0 10 0C13.1495 0 15.7143 2.48705 15.7143 5.55499V8.14816C16.9784 8.15167 18 9.14838 18 10.3774V14.0741C18 17.3402 15.2714 20 11.9054 20H8.09456C4.73232 20 2 17.3469 2 14.0741V10.3774C2 9.14043 3.02273 8.15164 4.28571 8.14816ZM6.57143 8.14815V5.55619C6.57143 3.71055 8.10645 2.22222 10 2.22222C11.8897 2.22222 13.4286 3.71489 13.4286 5.55619V8.14815H6.57143Z" fill="#C1C7D0"/>
                                 </svg>
                             </div>
                             <input value={user.password} onChange={handleChange} className="font-medium text-[16px] text-[#8A94A6] h-full w-full border-none outline-none focus:ring-transparent rounded-[16px] px-[13px] placeholder-[#B0B7C3]" type={passwordToggle ? 'text' : 'password'} name="password" placeholder="Password" />
@@ -148,9 +142,9 @@ const SignIn = () => {
                         </div>
                         {!validPassword && <p className="mt-[16px] text-[14px] text-[#FF5630] font-medium">Please enter a valid password.</p>}
 
-                        <div class="flex items-center mt-[16px]">
-                            <input id="default-checkbox" type="checkbox" value="" class="w-[28px] h-[28px] text-[#377DFF] bg-gray-100 border-gray-300 rounded focus:ring-transparent focus:ring-0" />
-                            <label for="default-checkbox" class="ml-[17px] text-[16px] font-medium text-[#B0B7C3]">Remember Me</label>
+                        <div className="flex items-center mt-[16px]">
+                            <input id="default-checkbox" type="checkbox" value="" className="w-[28px] h-[28px] text-[#377DFF] bg-gray-100 border-gray-300 rounded focus:ring-transparent focus:ring-0" />
+                            <label htmlFor="default-checkbox" className="ml-[17px] text-[16px] font-medium text-[#B0B7C3]">Remember Me</label>
                         </div>
 
                         <button className="mt-[30px] h-[58px] w-full rounded-[16px] border-none outline-none text-[#fff] text-[16px] font-medium bg-[#377DFF]" type="submit">Sign In</button>
@@ -158,7 +152,7 @@ const SignIn = () => {
 
                     <div className="mt-[35px] flex justify-center items-center">
                         <p className="text-[16px] text-[#B0B7C3] font-medium">Don’t have an account yet?</p>
-                        <Link to="/signup" className="ml-1 text-[16px] text-[#377DFF] font-medium">Sign Up</Link>
+                        <p onClick={redirectSignup} className="ml-1 text-[16px] text-[#377DFF] font-medium cursor-pointer">Sign Up</p>
                     </div>
                 </div>
             </div>
