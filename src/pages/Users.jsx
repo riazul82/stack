@@ -14,11 +14,10 @@ const Users = () => {
 
     useEffect(() => {
         dispatch(usersData(currentPage));
-    }, [dispatch, currentPage]);
+    }, [currentPage, dispatch]);
 
     useEffect(() => {
         if (users.length && users[0] !== undefined) {
-            setCurrentPage(users[0].page);
             setTotalPages(users[0].total_pages);
         }
     }, [users]);
