@@ -13,6 +13,7 @@ const SignUp = () => {
     const [validPassword, setValidPassword] = useState(true);
     const [passwordToggle, setPasswordToggle] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState(0);
+    const [disableSubmit, setDisableSubmit] = useState(false);
     const {error} = useSelector((state) => state.user);
     
     const dispatch = useDispatch();
@@ -103,12 +104,13 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setDisableSubmit(true);
         localStorage.removeItem('token');
         if (validateEmail(user.email) && validateName(user.name) && validatePassword(user.password)) {
             dispatch(signupUser(user));
             setUser({name: '', email: '', password: ''});
-
             setTimeout(() => {
+                setDisableSubmit(false);
                 if (localStorage.getItem('token')) {
                     navigate('/');
                 }
@@ -236,7 +238,7 @@ const SignUp = () => {
                             <label htmlFor="default-checkbox" className="ml-[17px] text-[16px] font-medium text-[#B0B7C3]">I agree to the Terms & Conditions</label>
                         </div>
 
-                        <button className="mt-[30px] h-[58px] w-full rounded-[16px] border-none outline-none text-[#fff] text-[16px] font-medium bg-[#377DFF]" type="submit">Sign Up</button>
+                        <button className="mt-[30px] h-[58px] w-full rounded-[16px] border-none outline-none text-[#fff] text-[16px] font-medium bg-[#377DFF]" type="submit" disabled={disableSubmit}>Sign Up</button>
                     </form>
 
                     <div className="mt-[35px] flex justify-center items-center">
